@@ -368,4 +368,10 @@ void draw() {
 
 ## 선택정렬 실행 결과
 
-![선택정렬 실행 결과](./homeWork_buble/스크린샷%202026-09-17%20103140.png)
+<img src="./homeWork_bubble/스크린샷%202026-09-17%20103140.png" width="600">
+
+## 과제 README
+
+## 병합정렬 실행 결과
+
+<img src="./homeWork_bubble/merge_sort.png" width="600">
