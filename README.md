@@ -278,7 +278,7 @@ void swap(int[] arr, int i, int j) {
   int tmp=arr[j];
   arr[j] = arr[i];
   arr[i] = tmp;
-}// 여기에 Sorting.pde의 실제 코드를 붙여넣기
+}
 ```
 
 ---
