@@ -285,7 +285,7 @@ void swap(int[] arr, int i, int j) {
 
 ## 과제 README
 
-![과제 사진](./homework/homework1.jpg)
+![선택정렬 실행 결과](./homeWork_bubble/스크린샷%202026-09-17%20103140.png)
 
 ## 과제 README
 
