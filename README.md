@@ -359,3 +359,12 @@ void setup() {
     }
   }
 }
+# 과제 README
+
+## 선택정렬 실행 결과
+
+<img src="./homeWork_bubble/스크린샷 2026-09-17 103140.png" width="600">
+
+## 병합정렬 실행 결과
+
+<img src="./homeWork_bubble/스크린샷 2026-09-17 110640.png" width="600">
