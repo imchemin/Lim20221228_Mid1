@@ -5,8 +5,8 @@
 
 ### 실행 결과
 
-![선택정렬 실행 결과](숙제/README.png)
+![선택정렬 실행 결과](./homework/SelectionSorting_2026_0910_114804.png)
 
 ### 소스 코드
 
-여기에 SelectionSorting.pde의 실제 코드를 붙여넣으세요.
+[SelectionSorting.pde 코드 파일 열기](./homework/SelectionSorting.pde)
