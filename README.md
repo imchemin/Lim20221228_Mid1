@@ -11,55 +11,74 @@
 [원본 파일 열기](./homework/SelectionSorting.pde)
 
 ```java
-int[] arr;
+
+int[] numbers = {64, 25, 12, 22, 11};
 
 void setup() {
-  intArr(16);
-  printArr();
-  selectionSorting();
-  printArr();
-}
+  size(600, 400);
 
-void intArr(int n) {
-  int i;
-  arr = new int[n];
-  for(i=0; i<arr.length; i++) {
-    arr[i] = (int) random(100);
-  }
-}
+  println("선택정렬 시작");
+  println("정렬 전: " + join(nfNumbers(numbers), ", "));
 
-void printArr() {
-  int i;
-  for(i=0; i<arr.length; i++) {
-    print(arr[i], " ");
-  }
-  println();
-}
+  selectionSort(numbers);
 
-void selectionSorting() {
-  int i, j, max, index;
-  for(i=0; i<arr.length; i++) {
-    max = index = -1;
-    for(j=0; j<arr.length-i; j++) {
-      if(max<arr[j]) {
-        index = j;
-        max = arr[j];
-      }
-    }
-    swap(index, arr.length-i-1);
-  } 
+  println("정렬 후: " + join(nfNumbers(numbers), ", "));
+  println("선택정렬 완료");
 }
-
-void swap(int i, int j) {
-  int tmp;
-  tmp = arr[j];
-  arr[j] = arr[i];
-  arr[i] = tmp;  
-}
-
 
 void draw() {
-}// 여기에 SelectionSorting.pde의 실제 코드를 붙여넣기
+  background(255);
+
+  fill(30);
+  textSize(24);
+  text("Selection Sort", 30, 40);
+
+  int barWidth = 80;
+  int gap = 25;
+  int startX = 40;
+  int baseY = 300;
+
+  for (int i = 0; i < numbers.length; i++) {
+    int x = startX + i * (barWidth + gap);
+    int barHeight = numbers[i] * 3;
+
+    fill(70, 140, 220);
+    rect(x, baseY - barHeight, barWidth, barHeight);
+
+    fill(0);
+    textSize(18);
+    text(numbers[i], x + 25, baseY + 25);
+  }
+
+  textSize(16);
+  text("Sorted from smallest to largest", 30, 360);
+}
+
+void selectionSort(int[] arr) {
+  for (int i = 0; i < arr.length - 1; i++) {
+    int minIndex = i;
+
+    for (int j = i + 1; j < arr.length; j++) {
+      if (arr[j] < arr[minIndex]) {
+        minIndex = j;
+      }
+    }
+
+    int temp = arr[i];
+    arr[i] = arr[minIndex];
+    arr[minIndex] = temp;
+  }
+}
+
+String[] nfNumbers(int[] arr) {
+  String[] result = new String[arr.length];
+
+  for (int i = 0; i < arr.length; i++) {
+    result[i] = str(arr[i]);
+  }
+
+  return result;
+}
 ```
 
 ---
