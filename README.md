@@ -359,19 +359,3 @@ void setup() {
     }
   }
 }
-
-void draw() {
-  // 정적 이미지 출력이므로 loop 정지
-  noLoop();
-}
-## 과제 README
-
-## 선택정렬 실행 결과
-
-<img src="./homeWork_bubble/스크린샷%202026-09-17%20103140.png" width="600">
-
-## 과제 README
-
-## 병합정렬 실행 결과
-
-<img src="./homeWork_bubble/merge_sort.png" width="600">
