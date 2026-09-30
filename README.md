@@ -285,4 +285,4 @@ void swap(int[] arr, int i, int j) {
 
 ## 과제 README
 
-[과제 설명 보기](./homework/README.md)
+![과제 사진](./homework/homework1.jpg)
