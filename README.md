@@ -67,7 +67,7 @@ void draw() {
 
 ### 실행 결과
 
-![선택정렬 실행 결과](./숙제/SelectionSorting_2026_0910_114804.png)
+![선택정렬 실행 결과](./homework/SelectionSorting_2026_0910_114804.png)
 
 ## 숙제 2. 정렬 과제
 
