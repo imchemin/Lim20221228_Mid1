@@ -1,5 +1,11 @@
-# Algorithm2026
-### Homework1
 
-[SelectionSorting](./homework/SelectionSorting.pde) 
-![Alt homework11](./homework/2026-09-10-112316.png)
+# 알고리즘2026
+
+## 숙제1 - 선택정렬
+
+아래는 선택정렬 과제 코드입니다.
+
+```java
+// 여기에 SelectionSorting.pde의 전체 코드를 붙여넣으세요.
+```
+  
