@@ -768,3 +768,11 @@ class Node {
     return "N(" + val + ", " + left + ", " + right + ")";
   }
 }
+```
+### 실행 결과
+
+[실행 녹화본 보기](./sketch_261015e.mp4)
+
+### 소스코드
+
+```java
