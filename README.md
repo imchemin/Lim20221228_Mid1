@@ -771,7 +771,6 @@ class Node {
 ```
 ### 실행 결과
 
-### 실행 결과
 
 [실행 녹화본 자동재생 페이지]((https://github.com/user-attachments/assets/37e2d816-791c-499e-bccd-19374ca344b6))
 
