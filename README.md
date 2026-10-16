@@ -771,7 +771,7 @@ class Node {
 ```
 ### 실행 결과
 
-<video src="https://github.com/imchemin/Lim20221228_Mid1/issues/1#issue-5880406066" controls width="720"></video>
+<video src="https://github.com/user-attachments/assets/37e2d816-791c-499e-bccd-19374ca344b6" controls width="720"></video>
 
 ### 소스코드
 
