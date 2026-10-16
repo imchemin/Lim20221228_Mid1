@@ -772,7 +772,7 @@ class Node {
 ### 실행 결과
 
 
-[실행 녹화본 보기](./sketch_261016e.mp4)
+[실행 녹화본 보기]<video src=" " controls width="720"></video>
 
 ### 소스코드
 
