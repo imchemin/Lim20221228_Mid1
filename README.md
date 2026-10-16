@@ -771,7 +771,7 @@ class Node {
 ```
 ### 실행 결과
 
-<video src="https://github.com/user-attachments/assets/37e2d816-791c-499e-bccd-19374ca344b6" controls width="720"></video>
+https://github.com/user-attachments/assets/37e2d816-791c-499e-bccd-19374ca344b6
 
 ### 소스코드
 
