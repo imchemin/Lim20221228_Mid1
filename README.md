@@ -888,3 +888,6 @@ void mousePressed() {
   newSort();
 }
 ```
+### 실행결과
+
+![실행 결과](./infix%20to%20postfix%20calculator%20using%20stack.png)
