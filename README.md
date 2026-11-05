@@ -896,7 +896,9 @@ void mousePressed() {
 
 '''java
 ### 소스 코드
+## 소스 코드
 
+```java
 import java.util.ArrayList;
 
 // ==========================================
