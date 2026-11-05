@@ -1531,3 +1531,11 @@ String formatNumber(double n) {
     .replaceAll("\\.$", "");
 }
 '''
+
+## 1. 실행 결과
+
+![실행 결과](![Pebble Placement Problem](./Pebble%20Placement%20Problem.png)
+
+## 3. 소스 코드
+
+[Processing 코드 다운로드](./Pebble_Placement_Problem.pde)
