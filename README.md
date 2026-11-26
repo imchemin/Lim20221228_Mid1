@@ -1719,4 +1719,4 @@ void draw() {
 
 ### 1. 실행 결과
 
-![imchemin](imchemin.jpg)
+![imchemin](./imchemin.jpg)
