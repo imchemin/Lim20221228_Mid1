@@ -1720,3 +1720,123 @@ void draw() {
 ### 1. 실행 결과
 
 ![BFS and DFS](./imchemin.jpg)
+
+
+### 2. 전체 소스 코드
+
+ArrayList<ArrayList<Integer>> adjList;
+int[][] adjMatrix;
+int V = 6;
+
+void setup() {
+  size(600, 400);
+
+  adjList = new ArrayList<ArrayList<Integer>>();
+  adjMatrix = new int[V][V];
+
+  // Initialize adjacency list
+  for (int i = 0; i < V; i++) {
+    adjList.add(new ArrayList<Integer>());
+  }
+
+  // Add edges
+  addEdge(0, 1);
+  addEdge(0, 2);
+  addEdge(1, 3);
+  addEdge(1, 4);
+  addEdge(2, 4);
+  addEdge(3, 5);
+  addEdge(4, 5);
+
+  // Print graph representations
+  printAdjList();
+  printAdjMatrix();
+
+  // Perform BFS and DFS
+  BFS(0);
+  DFS(0);
+}
+
+// Add undirected edge
+void addEdge(int u, int v) {
+  adjList.get(u).add(v);
+  adjList.get(v).add(u);
+
+  adjMatrix[u][v] = 1;
+  adjMatrix[v][u] = 1;
+}
+
+// Print adjacency list
+void printAdjList() {
+  println("Adjacency List:");
+
+  for (int i = 0; i < V; i++) {
+    print(i + " : ");
+
+    for (int j : adjList.get(i)) {
+      print(j + " ");
+    }
+
+    println();
+  }
+}
+
+// Print adjacency matrix
+void printAdjMatrix() {
+  println("\nAdjacency Matrix:");
+
+  for (int i = 0; i < V; i++) {
+    for (int j = 0; j < V; j++) {
+      print(adjMatrix[i][j] + " ");
+    }
+    println();
+  }
+}
+
+// Breadth First Search
+void BFS(int start) {
+  boolean[] visited = new boolean[V];
+  ArrayList<Integer> queue = new ArrayList<Integer>();
+
+  visited[start] = true;
+  queue.add(start);
+
+  print("\nBFS Traversal: ");
+
+  while (!queue.isEmpty()) {
+    int current = queue.remove(0);
+    print(current + " ");
+
+    for (int neighbor : adjList.get(current)) {
+      if (!visited[neighbor]) {
+        visited[neighbor] = true;
+        queue.add(neighbor);
+      }
+    }
+  }
+
+  println();
+}
+
+// Depth First Search
+void DFS(int start) {
+  boolean[] visited = new boolean[V];
+
+  print("\nDFS Traversal: ");
+  DFSUtil(start, visited);
+
+  println();
+}
+
+void DFSUtil(int current, boolean[] visited) {
+  visited[current] = true;
+  print(current + " ");
+
+  for (int neighbor : adjList.get(current)) {
+    if (!visited[neighbor]) {
+      DFSUtil(neighbor, visited);
+    }
+  }
+}
+
+```
