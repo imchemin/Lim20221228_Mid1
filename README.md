@@ -2131,4 +2131,610 @@ boolean insideButton(int x, int y, int w, int h) {
 ```
 ### 1. 실행 결과
 
-![Kruskal & Prim Algorithms](./BFS_DFS_Visualization.jpg)
+![Kruskal & Prim Algorithms](./Kruskal & Prim Algorithms.png)
+
+### 2. 전체 소스 코드
+
+```java
+
+import java.util.ArrayList;
+
+// ======================================
+// MINIMUM SPANNING TREE VISUALIZATION
+// Kruskal's Algorithm & Prim's Algorithm
+// ======================================
+
+final int V = 8;
+
+ArrayList<Edge> edges;
+ArrayList<Edge> mstEdges;
+ArrayList<Edge> sortedEdges;
+
+boolean[] visited;
+boolean[] processed;
+
+int[] parent;
+int[] rank;
+
+String algorithm = "NONE";
+
+int totalWeight = 0;
+int currentEdge = -1;
+int kruskalIndex = 0;
+
+boolean autoRun = false;
+boolean finished = false;
+
+int autoSpeed = 35;
+
+// Node positions
+int[] nodeX = {
+  100, 280, 450, 620,
+  180, 380, 560, 700
+};
+
+int[] nodeY = {
+  160, 100, 170, 110,
+  390, 430, 350, 510
+};
+
+// ======================================
+// EDGE CLASS
+// ======================================
+
+class Edge {
+  int u, v, weight;
+  int status = 0;
+  // 0 = normal
+  // 1 = selected
+  // 2 = rejected
+
+  Edge(int u, int v, int weight) {
+    this.u = u;
+    this.v = v;
+    this.weight = weight;
+  }
+}
+
+// ======================================
+// SETUP
+// ======================================
+
+void setup() {
+  size(1100, 720);
+
+  textAlign(CENTER, CENTER);
+  smooth();
+
+  initializeGraph();
+  resetAlgorithm();
+}
+
+// ======================================
+// GRAPH INITIALIZATION
+// ======================================
+
+void initializeGraph() {
+  edges = new ArrayList<Edge>();
+
+  edges.add(new Edge(0, 1, 4));
+  edges.add(new Edge(0, 4, 3));
+  edges.add(new Edge(1, 2, 2));
+  edges.add(new Edge(1, 4, 5));
+  edges.add(new Edge(2, 3, 3));
+  edges.add(new Edge(2, 5, 6));
+  edges.add(new Edge(3, 5, 4));
+  edges.add(new Edge(3, 6, 1));
+  edges.add(new Edge(4, 5, 2));
+  edges.add(new Edge(4, 6, 5));
+  edges.add(new Edge(5, 6, 3));
+  edges.add(new Edge(5, 7, 6));
+  edges.add(new Edge(6, 7, 2));
+  edges.add(new Edge(2, 7, 8));
+}
+
+// ======================================
+// RESET
+// ======================================
+
+void resetAlgorithm() {
+  mstEdges = new ArrayList<Edge>();
+  sortedEdges = new ArrayList<Edge>();
+
+  visited = new boolean[V];
+  processed = new boolean[edges.size()];
+
+  parent = new int[V];
+  rank = new int[V];
+
+  for (int i = 0; i < V; i++) {
+    parent[i] = i;
+    rank[i] = 0;
+  }
+
+  for (int i = 0; i < edges.size(); i++) {
+    edges.get(i).status = 0;
+  }
+
+  totalWeight = 0;
+  currentEdge = -1;
+  kruskalIndex = 0;
+
+  autoRun = false;
+  finished = false;
+}
+
+// ======================================
+// START ALGORITHMS
+// ======================================
+
+void startKruskal() {
+  resetAlgorithm();
+  algorithm = "KRUSKAL";
+
+  // Sort edges by ascending weight
+  for (int i = 0; i < edges.size(); i++) {
+    sortedEdges.add(edges.get(i));
+  }
+
+  for (int i = 0; i < sortedEdges.size(); i++) {
+    for (int j = i + 1; j < sortedEdges.size(); j++) {
+      if (sortedEdges.get(i).weight >
+          sortedEdges.get(j).weight) {
+
+        Edge temp = sortedEdges.get(i);
+        sortedEdges.set(i, sortedEdges.get(j));
+        sortedEdges.set(j, temp);
+      }
+    }
+  }
+}
+
+void startPrim() {
+  resetAlgorithm();
+  algorithm = "PRIM";
+
+  // Start from vertex 0
+  visited[0] = true;
+}
+
+// ======================================
+// DISJOINT SET UNION (DSU)
+// ======================================
+
+int findRoot(int x) {
+  if (parent[x] != x) {
+    parent[x] = findRoot(parent[x]);
+  }
+
+  return parent[x];
+}
+
+void unionSet(int a, int b) {
+  int rootA = findRoot(a);
+  int rootB = findRoot(b);
+
+  if (rootA == rootB) return;
+
+  if (rank[rootA] < rank[rootB]) {
+    parent[rootA] = rootB;
+  }
+  else if (rank[rootA] > rank[rootB]) {
+    parent[rootB] = rootA;
+  }
+  else {
+    parent[rootB] = rootA;
+    rank[rootA]++;
+  }
+}
+
+// ======================================
+// KRUSKAL STEP
+// ======================================
+
+void kruskalStep() {
+  if (finished) return;
+
+  if (mstEdges.size() == V - 1) {
+    finished = true;
+    autoRun = false;
+    return;
+  }
+
+  if (kruskalIndex >= sortedEdges.size()) {
+    finished = true;
+    autoRun = false;
+    return;
+  }
+
+  Edge e = sortedEdges.get(kruskalIndex);
+  kruskalIndex++;
+
+  currentEdge = edges.indexOf(e);
+
+  if (findRoot(e.u) != findRoot(e.v)) {
+
+    unionSet(e.u, e.v);
+
+    e.status = 1;
+    mstEdges.add(e);
+
+    totalWeight += e.weight;
+  }
+  else {
+    // Reject edge because it creates a cycle
+    e.status = 2;
+  }
+
+  if (mstEdges.size() == V - 1) {
+    finished = true;
+    autoRun = false;
+  }
+}
+
+// ======================================
+// PRIM STEP
+// ======================================
+
+void primStep() {
+  if (finished) return;
+
+  Edge best = null;
+  int bestIndex = -1;
+
+  // Find minimum edge crossing the visited boundary
+  for (int i = 0; i < edges.size(); i++) {
+    Edge e = edges.get(i);
+
+    boolean oneVisited =
+      visited[e.u] != visited[e.v];
+
+    if (oneVisited) {
+      if (best == null ||
+          e.weight < best.weight) {
+
+        best = e;
+        bestIndex = i;
+      }
+    }
+  }
+
+  if (best == null) {
+    finished = true;
+    autoRun = false;
+    return;
+  }
+
+  currentEdge = bestIndex;
+
+  best.status = 1;
+  mstEdges.add(best);
+
+  totalWeight += best.weight;
+
+  visited[best.u] = true;
+  visited[best.v] = true;
+
+  if (mstEdges.size() == V - 1) {
+    finished = true;
+    autoRun = false;
+  }
+}
+
+// ======================================
+// NEXT STEP
+// ======================================
+
+void nextStep() {
+  if (algorithm.equals("KRUSKAL")) {
+    kruskalStep();
+  }
+  else if (algorithm.equals("PRIM")) {
+    primStep();
+  }
+}
+
+// ======================================
+// DRAW
+// ======================================
+
+void draw() {
+  background(245);
+
+  drawHeader();
+  drawGraph();
+  drawLegend();
+  drawInformation();
+  drawButtons();
+
+  if (autoRun && frameCount % autoSpeed == 0) {
+    nextStep();
+  }
+}
+
+// ======================================
+// HEADER
+// ======================================
+
+void drawHeader() {
+  fill(30);
+  textSize(28);
+  text("MINIMUM SPANNING TREE", width / 2, 35);
+
+  fill(100);
+  textSize(14);
+  text("Kruskal's Algorithm  |  Prim's Algorithm",
+       width / 2, 65);
+}
+
+// ======================================
+// DRAW GRAPH
+// ======================================
+
+void drawGraph() {
+  // Draw edges
+  for (int i = 0; i < edges.size(); i++) {
+    Edge e = edges.get(i);
+
+    if (e.status == 1) {
+      stroke(30, 170, 90);
+      strokeWeight(5);
+    }
+    else if (e.status == 2) {
+      stroke(220, 80, 80);
+      strokeWeight(2);
+    }
+    else if (i == currentEdge) {
+      stroke(255, 150, 20);
+      strokeWeight(5);
+    }
+    else {
+      stroke(175);
+      strokeWeight(2);
+    }
+
+    line(
+      nodeX[e.u], nodeY[e.u],
+      nodeX[e.v], nodeY[e.v]
+    );
+
+    // Edge weight background
+    float mx = (nodeX[e.u] + nodeX[e.v]) / 2.0;
+    float my = (nodeY[e.u] + nodeY[e.v]) / 2.0;
+
+    noStroke();
+    fill(255);
+    ellipse(mx, my, 28, 25);
+
+    fill(30);
+    textSize(13);
+    text(e.weight, mx, my);
+  }
+
+  // Draw nodes
+  for (int i = 0; i < V; i++) {
+    boolean inTree = false;
+
+    if (algorithm.equals("KRUSKAL")) {
+      for (Edge e : mstEdges) {
+        if (e.u == i || e.v == i) {
+          inTree = true;
+          break;
+        }
+      }
+    }
+    else {
+      inTree = visited[i];
+    }
+
+    if (inTree) {
+      fill(80, 190, 120);
+    }
+    else {
+      fill(220);
+    }
+
+    stroke(50);
+    strokeWeight(2);
+
+    ellipse(nodeX[i], nodeY[i], 48, 48);
+
+    fill(20);
+    textSize(18);
+    text(i, nodeX[i], nodeY[i]);
+  }
+}
+
+// ======================================
+// LEGEND
+// ======================================
+
+void drawLegend() {
+  int y = 570;
+
+  textAlign(LEFT, CENTER);
+  textSize(13);
+
+  stroke(30, 170, 90);
+  strokeWeight(5);
+  line(70, y, 105, y);
+
+  fill(30);
+  noStroke();
+  text("Selected", 115, y);
+
+  stroke(255, 150, 20);
+  strokeWeight(5);
+  line(230, y, 265, y);
+
+  fill(30);
+  noStroke();
+  text("Current", 275, y);
+
+  stroke(220, 80, 80);
+  strokeWeight(3);
+  line(380, y, 415, y);
+
+  fill(30);
+  noStroke();
+  text("Rejected", 425, y);
+
+  fill(80, 190, 120);
+  ellipse(535, y, 18, 18);
+
+  fill(30);
+  text("MST Vertex", 550, y);
+
+  textAlign(CENTER, CENTER);
+}
+
+// ======================================
+// INFORMATION PANEL
+// ======================================
+
+void drawInformation() {
+  int x = 770;
+
+  fill(255);
+  noStroke();
+  rect(750, 95, 320, 480, 15);
+
+  fill(30);
+  textSize(21);
+  textAlign(CENTER, CENTER);
+  text("ALGORITHM STATUS", 910, 125);
+
+  stroke(220);
+  line(775, 155, 1045, 155);
+
+  textAlign(LEFT, CENTER);
+  textSize(15);
+
+  fill(80);
+  text("Algorithm", x + 15, 185);
+
+  fill(30);
+  textSize(18);
+  text(algorithm, x + 15, 215);
+
+  fill(80);
+  textSize(15);
+  text("Selected Edges", x + 15, 260);
+
+  fill(30);
+  textSize(20);
+  text(mstEdges.size() + " / " + (V - 1),
+       x + 15, 290);
+
+  fill(80);
+  textSize(15);
+  text("Total Weight", x + 15, 335);
+
+  fill(30, 150, 90);
+  textSize(30);
+  text(str(totalWeight), x + 15, 375);
+
+  fill(80);
+  textSize(15);
+  text("Selected Edge List", x + 15, 425);
+
+  fill(30);
+  textSize(12);
+
+  int displayCount = min(mstEdges.size(), 7);
+
+  for (int i = 0; i < displayCount; i++) {
+    Edge e = mstEdges.get(i);
+
+    String s = e.u + " - " + e.v +
+               "   Weight: " + e.weight;
+
+    text(s, x + 15, 455 + i * 18);
+  }
+
+  if (finished) {
+    fill(30, 160, 90);
+    textSize(16);
+    text("MST COMPLETED!", x + 15, 550);
+  }
+  else if (algorithm.equals("NONE")) {
+    fill(100);
+    textSize(13);
+    text("Select an algorithm to start.",
+         x + 15, 550);
+  }
+
+  textAlign(CENTER, CENTER);
+}
+
+// ======================================
+// BUTTONS
+// ======================================
+
+void drawButtons() {
+  int y = 635;
+
+  drawButton(90, y, 170, 48,
+             "KRUSKAL", color(60, 130, 210));
+
+  drawButton(280, y, 170, 48,
+             "PRIM", color(130, 100, 200));
+
+  drawButton(470, y, 120, 48,
+             "STEP", color(60, 160, 120));
+
+  drawButton(610, y, 120, 48,
+             autoRun ? "PAUSE" : "AUTO",
+             color(230, 150, 50));
+
+  drawButton(750, y, 120, 48,
+             "RESET", color(100));
+}
+
+void drawButton(int x, int y, int w, int h,
+                String label, int c) {
+  noStroke();
+  fill(c);
+  rect(x, y, w, h, 9);
+
+  fill(255);
+  textSize(15);
+  text(label, x + w / 2, y + h / 2);
+}
+
+// ======================================
+// MOUSE INPUT
+// ======================================
+
+void mousePressed() {
+  int y = 635;
+
+  if (inside(90, y, 170, 48)) {
+    startKruskal();
+  }
+  else if (inside(280, y, 170, 48)) {
+    startPrim();
+  }
+  else if (inside(470, y, 120, 48)) {
+    autoRun = false;
+    nextStep();
+  }
+  else if (inside(610, y, 120, 48)) {
+    if (!algorithm.equals("NONE") && !finished) {
+      autoRun = !autoRun;
+    }
+  }
+  else if (inside(750, y, 120, 48)) {
+    algorithm = "NONE";
+    resetAlgorithm();
+  }
+}
+
+boolean inside(int x, int y, int w, int h) {
+  return mouseX >= x &&
+         mouseX <= x + w &&
+         mouseY >= y &&
+         mouseY <= y + h;
+}
+
+```
