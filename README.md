@@ -2129,3 +2129,6 @@ boolean insideButton(int x, int y, int w, int h) {
 }
 
 ```
+### 1. 실행 결과
+
+![Kruskal & Prim Algorithms](./BFS_DFS_Visualization.jpg)
