@@ -1715,6 +1715,7 @@ void draw() {
   text("Green cells = Selected Pebbles",
        width / 2, 555);
 }
+```
 
 ### 1. 실행 결과
 
