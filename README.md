@@ -1717,6 +1717,8 @@ void draw() {
 }
 
 
-### 실행 결과
 
-![BFS and DFS for a Graph 실행결과](imchemin.jpg)
+### 1. 실행 결과
+
+![BFS and DFS](./BFS%20and%20DFS.png)
+
