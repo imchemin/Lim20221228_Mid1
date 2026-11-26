@@ -2131,7 +2131,7 @@ boolean insideButton(int x, int y, int w, int h) {
 ```
 ### 1. 실행 결과
 
-![Kruskal & Prim Algorithms](./Kruskal & Prim Algorithms.png)
+![Kruskal and Prim Algorithms](./Kruskal%20%26%20Prim%20Algorithms.png)
 
 ### 2. 전체 소스 코드
 
