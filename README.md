@@ -1844,3 +1844,6 @@ void DFSUtil(int current, boolean[] visited) {
 ```
 
 ### 1. 실행 결과
+![Graph Traversal Visualization](./BFS_DFS_Visualization.jpg)
+
+```
