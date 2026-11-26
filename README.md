@@ -1846,4 +1846,286 @@ void DFSUtil(int current, boolean[] visited) {
 ### 1. 실행 결과
 ![Graph Traversal Visualization](./BFS_DFS_Visualization.jpg)
 
+### 2. 전체 소스 코드
+
+```java
+
+
+import java.util.ArrayList;
+
+final int V = 7;
+
+ArrayList<Integer>[] adj;
+ArrayList<Integer> frontier;
+ArrayList<Integer> visitOrder;
+
+boolean[] visited;
+int[] nodeX = {100, 240, 240, 380, 380, 380, 500};
+int[] nodeY = {300, 170, 430, 100, 240, 430, 300};
+
+int[][] edges = {
+  {0, 1}, {0, 2},
+  {1, 3}, {1, 4},
+  {2, 5}, {2, 6},
+  {4, 5}
+};
+
+String mode = "NONE";
+int current = -1;
+boolean autoRun = false;
+int stepDelay = 0;
+
+void setup() {
+  size(950, 620);
+  textAlign(CENTER, CENTER);
+  initializeGraph();
+  resetSearch();
+}
+
+void initializeGraph() {
+  adj = new ArrayList[V];
+
+  for (int i = 0; i < V; i++) {
+    adj[i] = new ArrayList<Integer>();
+  }
+
+  for (int i = 0; i < edges.length; i++) {
+    int a = edges[i][0];
+    int b = edges[i][1];
+
+    adj[a].add(b);
+    adj[b].add(a);
+  }
+}
+
+void resetSearch() {
+  visited = new boolean[V];
+  frontier = new ArrayList<Integer>();
+  visitOrder = new ArrayList<Integer>();
+
+  current = -1;
+  autoRun = false;
+  stepDelay = 0;
+}
+
+void startBFS() {
+  resetSearch();
+  mode = "BFS";
+
+  // 시작 정점 0을 큐에 추가
+  frontier.add(0);
+  visited[0] = true;
+}
+
+void startDFS() {
+  resetSearch();
+  mode = "DFS";
+
+  // 시작 정점 0을 스택에 추가
+  frontier.add(0);
+  visited[0] = true;
+}
+
+void draw() {
+  background(245);
+
+  drawTitle();
+  drawGraph();
+  drawControls();
+  drawInformation();
+
+  if (autoRun && frameCount % 30 == 0) {
+    nextStep();
+  }
+}
+
+void drawTitle() {
+  fill(30);
+  textSize(25);
+  text("BFS & DFS Graph Traversal", width / 2, 30);
+
+  textSize(13);
+  fill(90);
+  text("Breadth First Search / Depth First Search",
+       width / 2, 58);
+}
+
+void drawGraph() {
+  // 간선 그리기
+  stroke(150);
+  strokeWeight(3);
+
+  for (int i = 0; i < edges.length; i++) {
+    int a = edges[i][0];
+    int b = edges[i][1];
+
+    line(nodeX[a], nodeY[a],
+         nodeX[b], nodeY[b]);
+  }
+
+  // 정점 그리기
+  for (int i = 0; i < V; i++) {
+    if (i == current) {
+      fill(255, 170, 50);
+    } else if (visited[i]) {
+      fill(80, 190, 120);
+    } else {
+      fill(220);
+    }
+
+    stroke(50);
+    strokeWeight(2);
+    ellipse(nodeX[i], nodeY[i], 48, 48);
+
+    fill(20);
+    textSize(18);
+    text(i, nodeX[i], nodeY[i]);
+  }
+}
+
+void drawControls() {
+  int x = 620;
+  int y = 115;
+
+  drawButton(x, y, 120, 42, "BFS", color(70, 140, 230));
+  drawButton(x + 140, y, 120, 42, "DFS", color(150, 100, 210));
+
+  drawButton(x, y + 60, 120, 42, "STEP", color(70, 170, 130));
+  drawButton(x + 140, y + 60, 120, 42, "AUTO", color(230, 150, 60));
+
+  drawButton(x, y + 120, 260, 42, "RESET", color(100));
+}
+
+void drawButton(int x, int y, int w, int h,
+                String label, int c) {
+  fill(c);
+  noStroke();
+  rect(x, y, w, h, 8);
+
+  fill(255);
+  textSize(16);
+  text(label, x + w / 2, y + h / 2);
+}
+
+void drawInformation() {
+  int x = 620;
+
+  fill(30);
+  textAlign(LEFT, CENTER);
+  textSize(17);
+  text("Algorithm: " + mode, x, 340);
+
+  textSize(15);
+  text("Current Node: " + current, x, 380);
+
+  text("Visited Order:", x, 425);
+  text(joinList(visitOrder), x, 455);
+
+  if (mode.equals("BFS")) {
+    text("Queue (Front -> Rear):", x, 495);
+  } else if (mode.equals("DFS")) {
+    text("Stack (Bottom -> Top):", x, 495);
+  } else {
+    text("Queue / Stack:", x, 495);
+  }
+
+  text(joinList(frontier), x, 525);
+
+  textAlign(CENTER, CENTER);
+  fill(80);
+  textSize(12);
+  text("Green: Visited   Orange: Current",
+       330, 575);
+}
+
+String joinList(ArrayList<Integer> list) {
+  String result = "";
+
+  for (int i = 0; i < list.size(); i++) {
+    result += list.get(i);
+
+    if (i < list.size() - 1) {
+      result += " -> ";
+    }
+  }
+
+  return result;
+}
+
+void nextStep() {
+  if (frontier.size() == 0) {
+    autoRun = false;
+    return;
+  }
+
+  int node;
+
+  if (mode.equals("BFS")) {
+    // 큐: 앞에서 제거
+    node = frontier.remove(0);
+  } else {
+    // 스택: 마지막에서 제거
+    node = frontier.remove(frontier.size() - 1);
+  }
+
+  current = node;
+  visitOrder.add(node);
+
+  // 인접 정점 탐색
+  if (mode.equals("BFS")) {
+    for (int i = 0; i < adj[node].size(); i++) {
+      int next = adj[node].get(i);
+
+      if (!visited[next]) {
+        visited[next] = true;
+        frontier.add(next);
+      }
+    }
+  } else {
+    // DFS는 역순으로 넣어 작은 번호부터 탐색
+    for (int i = adj[node].size() - 1; i >= 0; i--) {
+      int next = adj[node].get(i);
+
+      if (!visited[next]) {
+        visited[next] = true;
+        frontier.add(next);
+      }
+    }
+  }
+
+  if (frontier.size() == 0) {
+    autoRun = false;
+  }
+}
+
+void mousePressed() {
+  int x = 620;
+  int y = 115;
+
+  if (insideButton(x, y, 120, 42)) {
+    startBFS();
+  }
+  else if (insideButton(x + 140, y, 120, 42)) {
+    startDFS();
+  }
+  else if (insideButton(x, y + 60, 120, 42)) {
+    autoRun = false;
+    nextStep();
+  }
+  else if (insideButton(x + 140, y + 60, 120, 42)) {
+    if (!mode.equals("NONE") && frontier.size() > 0) {
+      autoRun = !autoRun;
+    }
+  }
+  else if (insideButton(x, y + 120, 260, 42)) {
+    mode = "NONE";
+    resetSearch();
+  }
+}
+
+boolean insideButton(int x, int y, int w, int h) {
+  return mouseX >= x && mouseX <= x + w &&
+         mouseY >= y && mouseY <= y + h;
+}
+
 ```
