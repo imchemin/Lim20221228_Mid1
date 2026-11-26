@@ -1720,5 +1720,5 @@ void draw() {
 
 ### 1. 실행 결과
 
-![BFS and DFS](./BFS%20and%20DFS.png)
+![imchemin](./imchemin.jpg)
 
