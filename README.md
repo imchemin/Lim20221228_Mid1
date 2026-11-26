@@ -1715,3 +1715,8 @@ void draw() {
   text("Green cells = Selected Pebbles",
        width / 2, 555);
 }
+
+
+### 실행 결과
+
+![선택정렬 실행 결과](./homework/SelectionSorting_new.png)
