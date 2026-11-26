@@ -1724,6 +1724,8 @@ void draw() {
 
 ### 2. 전체 소스 코드
 
+```java
+
 ArrayList<ArrayList<Integer>> adjList;
 int[][] adjMatrix;
 int V = 6;
